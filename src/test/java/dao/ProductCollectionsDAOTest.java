@@ -6,17 +6,19 @@ package dao;
 
 import domain.Product;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import static org.assertj.core.api.Java6Assertions.assertThat;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.hasProperty;
 import org.junit.jupiter.api.AfterEach;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  *
@@ -85,6 +87,7 @@ public class ProductCollectionsDAOTest {
 
     @Test
     public void testRemoveProduct() {
+
         //Check p1,p2,p3 are saved
         assertThat(productCollectionsDAO.getProducts()).contains(p1, p2);
         //size 2
@@ -97,6 +100,32 @@ public class ProductCollectionsDAOTest {
 
         //check it contains 2
         assertThat(productCollectionsDAO.getProducts()).contains(p2);
+        // Create a mock of the ProductDAO
+
+        ProductDAO dao = mock(ProductDAO.class);
+
+        // Create some products to test with
+        Product p1 = new Product();
+        p1.setProductId("123");
+        // Set other properties of p1...
+
+        Product p2 = new Product();
+        p2.setProductId("456");
+        // Set other properties of p2...
+
+        // Add the products to the collection
+        dao.saveProduct(p1);
+        dao.saveProduct(p2);
+
+        // Stub the getProducts method to return the test products
+        when(dao.getProducts()).thenReturn(new HashSet<>(Arrays.asList(p1, p2)));
+
+        // Stub the delete method to remove the selected product from the collection
+        doAnswer((invocation) -> {
+            Product productToRemove = invocation.getArgument(0); // Get the product passed to the delete method
+            dao.getProducts().remove(productToRemove); // Remove the product from the collection
+            return null;
+        }).when(dao).removeProduct(any());
 
     }
 
@@ -130,7 +159,7 @@ public class ProductCollectionsDAOTest {
 
     @Test
     public void testSearchById() {
-        
+
         //product1 Product
         Product product1 = productCollectionsDAO.searchById("123");
 
@@ -142,26 +171,35 @@ public class ProductCollectionsDAOTest {
 
         //product2 product
         Product product2 = productCollectionsDAO.searchById("124");
-        
+
         // Using AssertJ matchers
         assertThat(product2).isEqualTo(p2);
         assertThat(product2).usingRecursiveComparison().isEqualTo(p2);
         assertThat(product2).hasFieldOrPropertyWithValue("name", "x2");
-        assertThat(product2).hasFieldOrPropertyWithValue("Category","Poster");
-        
+        assertThat(product2).hasFieldOrPropertyWithValue("Category", "Poster");
+
+        //negative tests
+        Product product3 = productCollectionsDAO.searchById("125");
+        assertThat(product3).isNull();
 
     }
 
     @Test
     public void testFilterByCategory() {
-    
-    Collection<Product> filteredProducts = productCollectionsDAO.filterByCategory("cd");
 
-    // Ensure that the filtered products contain the correct products (p1) with the category "cd"
-    assertThat(filteredProducts).contains(p1);
+        Collection<Product> filteredProducts = productCollectionsDAO.filterByCategory("cd");
 
-    // Ensure that the filtered products do not contain products with other categories (p2, p3)
-    assertThat(filteredProducts).doesNotContain(p2, p3);
+        // Ensure that the filtered products contain the correct products (p1) with the category "cd"
+        assertThat(filteredProducts).contains(p1);
+
+        // Ensure that the filtered products do not contain products with other categories (p2, p3)
+        assertThat(filteredProducts).doesNotContain(p2, p3);
+
+        // negative tests
+        Collection<Product> filteredProductsB = productCollectionsDAO.filterByCategory("NonExistentCategory");
+
+        assertThat(filteredProductsB).isEmpty();
+
     }
 
 }
