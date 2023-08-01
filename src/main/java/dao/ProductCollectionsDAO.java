@@ -3,8 +3,10 @@ package dao;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import domain.Product;
+import domain.SaleItem;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 /**
@@ -14,7 +16,8 @@ public class ProductCollectionsDAO implements ProductDAO {
 
 	private static final Multimap<String, Product> categories = HashMultimap.create();
 	private static final Map<String, Product> products = new HashMap<>();
-
+        private static Collection<Product> items = new HashSet<>();
+       
 	@Override
 	public void saveProduct(Product product) {
 		products.put(product.getProductId(), product);
