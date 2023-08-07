@@ -57,7 +57,7 @@ public class ProductViewerSearchIDTest {
         product2.setListPrice(new BigDecimal(10));
         product2.setQuantityInStock(new BigDecimal(10));
         product2.setProductId("456");
-
+        
         when(dao.searchById("123")).thenReturn(product1);
         when(dao.searchById("456")).thenReturn(product2);
 
