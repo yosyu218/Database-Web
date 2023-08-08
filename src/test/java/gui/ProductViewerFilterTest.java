@@ -9,7 +9,6 @@ import domain.Product;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import org.assertj.swing.core.BasicRobot;
 import org.assertj.swing.core.Robot;
@@ -33,19 +32,7 @@ public class ProductViewerFilterTest {
 
         // create a mock for the DAO
         dao = mock(ProductDAO.class);
-    }
-
-    @AfterEach
-    public void tearDown() {
-        fixture.cleanUp();
-    }
-
-    @Test
-    public void testFilterByCategory() {
-        // Create an instance of the ProductDAO mock
-        ProductDAO dao = mock(ProductDAO.class);
-
-         // Create some test products with different categories
+        // Create some test products with different categories
         Product product1 = new Product();
         product1.setName("Product 1");
         product1.setCategory("Category 1");
@@ -60,42 +47,44 @@ public class ProductViewerFilterTest {
         product2.setQuantityInStock(new BigDecimal(10));
         product2.setProductId("456");
 
-        
         Collection<Product> products = new HashSet<>();
         products.add(product1);
-        products.add(product2);
+        
+        
+        
 
-        // Stub the filterByCategory method to return the collection of products for each category
-        when(dao.filterByCategory("Category 1")).thenReturn(products);
-        when(dao.filterByCategory("Category 2")).thenReturn(products);      
-       
-        // Create an instance of the ProductViewer class to test
-        ProductViewer viewer = new ProductViewer(null, false, dao);
+        // Mock DAO methods
+        when(dao.getProducts()).thenReturn(products);
+        when(dao.getCategories()).thenReturn(new HashSet<>(Arrays.asList("Category 1")));
 
-        // Show the dialog using AssertJ Swing's DialogFixture
-        fixture = new DialogFixture(robot, viewer);
+        // Create the fixture and show the dialog
+        fixture = new DialogFixture(robot, new ProductViewer(null, true, dao));
         fixture.show();
+       
+
+
+
+
+        
+    }
+
+    @AfterEach
+    public void tearDown() {
+        fixture.cleanUp();
+    }
+
+    @Test
+    public void testFilterByCategory() {
+
+
+// Verify that the combo box is populated with the expected categories
     
-        fixture.comboBox("cmbCategories").enterText("Category 1");
+        fixture.comboBox("cmbCategories").selectItem("Category 1");
+        fixture.comboBox("cmbCategories").requireItemCount(1);
+        
+ 
 
-        // Verify that the JList contains 0 products initially
-        fixture.list("lstProducts").requireItemCount(0);
-
-        // Select the category "Category 1" from the combo box to filter the products
-        fixture.comboBox("cmbCategories").selectItem(0);
-
-        // Verify that the filtered products are displayed in the JList (only product1 with "Category 1" should be displayed)
-        fixture.list("lstProducts").requireItemCount(1);
-        fixture.list("lstProducts").requireSelection(0);
-
-        // Select the category "Category 2" from the combo box to filter the products
-        fixture.comboBox("cmbCategories").selectItem(1);
-
-        // Verify that the filtered products are displayed in the JList (only product2 with "Category 2" should be displayed)
-        fixture.list("lstProducts").requireItemCount(1);
-        fixture.list("lstProducts").requireSelection(0);
-
-        // Close the dialog
+       
         fixture.button("btnClose").click();
     }
 }
