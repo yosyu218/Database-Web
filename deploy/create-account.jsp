@@ -16,6 +16,7 @@
     </head>
     <body>
         <main>
+            <%@include file="WEB-INF/jspf/navigation.jspf"%>
             <h1>Create a new account</h1>
 
             <fieldset>
@@ -30,21 +31,21 @@
                 <form action="create-account" method="POST">
 
                      <label for="customerId">Customer ID:</label><br>
-                    <input type="text" id="customerId" name="customerId"><br>
+                    <input type="number" id="customerId" name="customerId" ><br>
                     <label for="firstname">First Name:</label><br>
-                    <input type="text" id="firstname" name="firstname"><br>
+                    <input type="text" id="firstname" name="firstname" required><br>
                     <label for="surname">Surname:</label><br>
-                    <input type="text" id="surname" name="surname"><br>
+                    <input type="text" id="surname" name="surname" required><br>
                     <label for="email">Email address:</label><br>
                     <input type="email" id="email" name="email"><br>
                     
                     <label for="address">Shipping Address:</label><br>
-                    <input type="text" id="address" name="address"><br>
+                    <input type="text" id="address" name="address" required=""><br>
                     
                     <label for="username">Username:</label><br>
-                    <input type="text" id="username" name="username"><br>
+                    <input type="text" id="username" name="username" required><br>
                     <label for="pwd">Password:</label><br>
-                    <input type="password" id="password" name="password">
+                    <input type="password" id="password" name="password" required>
 
 
                     <button type="submit">Create account</button>

@@ -6,8 +6,8 @@ package web;
 
 import dao.CustomerCollectionsDAO;
 import dao.CustomerDAO;
-import domain.Customer;
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author yukiyoshiyasu
  */
-@WebServlet(name = "CreateAccountServlet", urlPatterns = {"/create-account"})
-public class CreateAccountServlet extends HttpServlet {
+@WebServlet(name = "SigninServlet", urlPatterns = {"/signin-account"})
+public class SigninServlet extends HttpServlet {
 
     /**
      * Handles the HTTP <code>POST</code> method.
@@ -32,25 +32,19 @@ public class CreateAccountServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         CustomerDAO dao = new CustomerCollectionsDAO();
-        
-// extracts the form data
-        Integer customerId = Integer.valueOf(request.getParameter("customerId"));
+        //extracts the password and username info
+
         String username = request.getParameter("username");
-        String firstName = request.getParameter("firstname");
-        String surname = request.getParameter("surname");
-        String shippingAddress = request.getParameter("address");
-        String email = request.getParameter("email");
+
         String password = request.getParameter("password");
+        //check credentials info
+        dao.verifyCredentials(username, password);
+        dao.getCustomerByUsername(username);
+        response.sendRedirect("view-products.jsp");
 
-// create the student object
-        Customer customer = new Customer(customerId, username, firstName, surname, shippingAddress, email);
         
-        customer.setPassword(password);
-// save the student
-        dao.saveCustomer(customer);
-        response.sendRedirect("index.jsp");
-
         
     }
 

@@ -16,7 +16,7 @@ public interface CustomerDAO {
     
     void removeCustomer (Customer customer);
     
-    Customer getCustomer(String username);
+    Customer getCustomerByUsername(String username);
     
     boolean verifyCredentials(String username, String password);
     

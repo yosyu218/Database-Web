@@ -8,15 +8,10 @@
     </head>
     <body>
         <main>
+            <%@include file="WEB-INF/jspf/navigation.jspf"%>
 
             <h1>Product Shop</h1>
 
-            <nav>
-                <a href="create-account.jsp">Create a new account</a>
-                <a href="signin-account.jsp">Sign in account</a>
-                <a href="view-products.jsp">View added products</a>
-                
-            </nav>
 
         </main>
     </body>

@@ -15,6 +15,7 @@
     </head>
     <body>
         <main>
+            <%@include file="WEB-INF/jspf/navigation.jspf"%>
             <h1>Sign In</h1>
 
             <fieldset>
@@ -29,9 +30,9 @@
                 <form action="signin-account" method="POST">
 
                     <label for="username">Username:</label><br>
-                    <input type="text" id="username" name="username"><br>
+                    <input type="text" id="username" name="username" required><br>
                     <label for="pwd">Password:</label><br>
-                    <input type="password" id="password" name="password">
+                    <input type="password" id="password" name="password" required>
 
 
                     <button type="submit">Sign In account</button>

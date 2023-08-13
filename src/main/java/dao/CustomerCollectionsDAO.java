@@ -32,7 +32,7 @@ public class CustomerCollectionsDAO implements CustomerDAO{
     }
     
     @Override
-    public Customer getCustomer(String username){
+    public Customer getCustomerByUsername(String username){
     return customers.get(username);
     }
     

@@ -43,7 +43,7 @@ public class CustomerCollectionsDAOTest {
         Customer c3 = new Customer(3, "newuser", "Alice", "Jason", "789 Queen St", "alice@gmail.com");
         customerDAO.saveCustomer(c3);
 
-        Customer savedCustomer = customerDAO.getCustomer("newuser");
+        Customer savedCustomer = customerDAO.getCustomerByUsername("newuser");
         assertNotNull(savedCustomer);
         assertEquals("newuser", savedCustomer.getUsername());
     }
@@ -52,7 +52,7 @@ public class CustomerCollectionsDAOTest {
     public void testRemoveCustomer() {
         customerDAO.removeCustomer(c1);
 
-        Customer removedCustomer = customerDAO.getCustomer("testuser1");
+        Customer removedCustomer = customerDAO.getCustomerByUsername("testuser1");
         assertNull(removedCustomer);
     }
 
@@ -67,7 +67,7 @@ public class CustomerCollectionsDAOTest {
 
     @Test
     public void testGetCustomer() {
-        Customer retrievedCustomer = customerDAO.getCustomer("testuser1");
+        Customer retrievedCustomer = customerDAO.getCustomerByUsername("testuser1");
         assertNotNull(retrievedCustomer);
         assertEquals("testuser1", retrievedCustomer.getUsername());
     }

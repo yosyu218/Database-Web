@@ -18,6 +18,7 @@
     </head>
     <body>
         <main>
+            <%@include file="WEB-INF/jspf/navigation.jspf"%>
             <h1>View all products</h1>
 
             <table>
