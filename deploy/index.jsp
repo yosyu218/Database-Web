@@ -11,6 +11,7 @@
             <%@include file="WEB-INF/jspf/navigation.jspf"%>
 
             <h1>Product Shop</h1>
+            <h2>Welcome to the sport supplement shop!</h2>
 
 
         </main>

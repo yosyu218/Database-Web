@@ -63,14 +63,17 @@ textarea {
 
 /* colours */
 th, a.nav, legend, label {
-	color: darkseagreen;
+	/*color: darkseagreen;*/
+        color: crimson;
 }
 
 h1, button {
-	background-color: darkseagreen;
-	color: white;
+	/*background-color: darkseagreen;*/
+	background-color: crimson;
+        color: white;
 }
 
 td, th {
-	border-color: darkseagreen;
+	/*border-color: darkseagreen;*/
+        border-color: crimson;
 }

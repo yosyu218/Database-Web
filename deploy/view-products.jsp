@@ -57,17 +57,18 @@
                         <td><%= product.getProductId()%></td>
                         <td><%= product.getName()%></td>
                         <td><%= product.getDescription()%></td>
+                        <td><%= product.getCategory()%></td>
                         <td><%= product.getListPrice()%></td>
                         <td><%= product.getQuantityInStock()%></td>
-                        <td><form action="view-products" method="POST"><input type="hidden" name="id" value="<%= product.getProductId()%>"><button>Update</button></form></td>
-
+                        <td><input type="hidden" name="id" value="<%= product.getProductId()%>"><button>Buy</button></form></td>
+                        
                     </tr>
                     <%
                         }
                     %>
 
                 </tbody>
-                <a href="view-students.jsp?major=All"><button>All</button></a>
+                <a href="view-products.jsp?category=All"><button>All</button></a>
 
                 <%
                     Collection<String> categories = dao.getCategories();
