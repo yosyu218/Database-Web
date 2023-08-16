@@ -13,6 +13,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import net.sf.oval.ConstraintViolation;
+import net.sf.oval.Validator;
+import net.sf.oval.exception.ConstraintsViolatedException;
 
 /**
  *
@@ -33,25 +37,45 @@ public class CreateAccountServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         CustomerDAO dao = new CustomerCollectionsDAO();
-        
-// extracts the form data
-        Integer customerId = Integer.valueOf(request.getParameter("customerId"));
-        String username = request.getParameter("username");
-        String firstName = request.getParameter("firstname");
-        String surname = request.getParameter("surname");
-        String shippingAddress = request.getParameter("address");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        try {
+            // extracts the form data
+            Integer customerId = Integer.valueOf(request.getParameter("customerId"));
+            String username = request.getParameter("username");
+            String firstName = request.getParameter("firstname");
+            String surname = request.getParameter("surname");
+            String shippingAddress = request.getParameter("address");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
 
-// create the student object
-        Customer customer = new Customer(customerId, username, firstName, surname, shippingAddress, email);
-        
-        customer.setPassword(password);
-// save the student
-        dao.saveCustomer(customer);
-        response.sendRedirect("index.jsp");
+            // create the customer object
+            Customer customer = new Customer(customerId, username, firstName, surname, shippingAddress, email);
 
-        
+            customer.setPassword(password);
+            new Validator().assertValid(customer);
+            // save the customer
+            dao.saveCustomer(customer);
+            response.sendRedirect("index.jsp");
+        } catch (NumberFormatException e) {
+            // Handle invalid ID input
+            HttpSession session = request.getSession();
+            session.setAttribute("validation", "You have entered an invalid ID");
+            response.sendRedirect("create-account.jsp");
+        }catch (ConstraintsViolatedException ex) {
+
+	// get the violated constraints from the exception
+	ConstraintViolation[] violations = ex.getConstraintViolations();
+
+	// create a nice error message for the user
+	String msg = "Please fix the following input problems:";
+
+	msg += "<ul>";
+	for (ConstraintViolation cv : violations) {
+		msg += "<li>" + cv.getMessage() + "</li>";
+	}
+	msg += "</ul>";
+
+	request.getSession().setAttribute("validation", msg);
+	response.sendRedirect("create-account.jsp");
+}
     }
-
 }

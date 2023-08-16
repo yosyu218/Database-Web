@@ -30,22 +30,13 @@
                 <p><%= validation%></p>
                 <form action="create-account" method="POST">
 
-                     <label for="customerId">Customer ID:</label><br>
-                    <input type="number" id="customerId" name="customerId" ><br>
-                    <label for="firstname">First Name:</label><br>
-                    <input type="text" id="firstname" name="firstname" required><br>
-                    <label for="surname">Surname:</label><br>
-                    <input type="text" id="surname" name="surname" required><br>
-                    <label for="email">Email address:</label><br>
-                    <input type="email" id="email" name="email"><br>
-                    
-                    <label for="address">Shipping Address:</label><br>
-                    <input type="text" id="address" name="address" required=""><br>
-                    
-                    <label for="username">Username:</label><br>
-                    <input type="text" id="username" name="username" required><br>
-                    <label for="pwd">Password:</label><br>
-                    <input type="password" id="password" name="password" required>
+                    <label for="customerId">Customer ID:</label> <input type="number" id="customerId" name="customerId" required><br>
+                    <label for="firstname">First Name:</label> <input type="text" id="firstname" name="firstname" required><br>
+                    <label for="surname">Surname:</label> <input type="text" id="surname" name="surname" required><br>
+                    <label for="email">Email address:</label> <input type="email" id="email" name="email"><br>
+                    <label for="address">Shipping Address:</label> <input type="text" id="address" name="address" required=""><br>
+                    <label for="username">Username:</label> <input type="text" id="username" name="username" required><br>
+                    <label for="pwd">Password:</label> <input type="password" id="password" name="password" required>
 
 
                     <button type="submit">Create account</button>

@@ -19,6 +19,10 @@ test {
 }
 
 dependencies {
+        
+        // https://mvnrepository.com/artifact/net.sf.oval/oval
+        implementation group: 'net.sf.oval', name: 'oval', version: '3.2.1'
+
 	providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
 
 	// Jetty

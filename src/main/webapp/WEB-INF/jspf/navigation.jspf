@@ -1,8 +1,15 @@
 <%-- any content can be specified here e.g.: --%>
 <%@ page pageEncoding="UTF-8" %>
 <nav>
-                <a href="create-account.jsp">Create a new account</a>
-                <a href="signin-account.jsp">Sign in account</a>
-                <a href="view-products.jsp">View added products</a>
-                <a href="index.jsp">Home</a>
-            </nav>
+    <a href="create-account.jsp">Create a new account</a>
+    <a href="signin-account.jsp">Sign in account</a>
+    <a href="view-products.jsp">View added products</a>
+    <a href="index.jsp">Home</a>
+    
+     <%-- Check if the customer object is present in the session --%>
+    <c:if test="${not empty sessionScope.customer}">
+        <%-- Display personalized welcome message using the customer object --%>
+        Welcome, ${sessionScope.customer.firstName} 
+        
+    </c:if>
+</nav>

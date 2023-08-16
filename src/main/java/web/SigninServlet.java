@@ -29,23 +29,38 @@ public class SigninServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+@Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    CustomerDAO dao = new CustomerCollectionsDAO();
 
-        CustomerDAO dao = new CustomerCollectionsDAO();
-        //extracts the password and username info
-
+    try {
+        // Extracts the password and username info
         String username = request.getParameter("username");
-
         String password = request.getParameter("password");
-        //check credentials info
-        dao.verifyCredentials(username, password);
-        dao.getCustomerByUsername(username);
-        response.sendRedirect("view-products.jsp");
 
-        
-        
+        // Check credentials info
+        boolean credentialsVerified = dao.verifyCredentials(username, password);
+        if (credentialsVerified) {
+            dao.getCustomerByUsername(username);
+            response.sendRedirect("view-products.jsp");
+        } else {
+            // Display a message popup for incorrect credentials
+            String errorMessage = "Wrong credential info";
+            String alertScript = "<script>alert('" + errorMessage + "');</script>";
+            
+            // Append the alert script to the response output
+            response.getWriter().write(alertScript);
+            
+            // Forward back to the signin-account page
+            request.getRequestDispatcher("signin-account.jsp").forward(request, response);
+        }
+    } catch (Exception e) {
+        // Handle any exceptions that may occur
+        String errorMsg = "An error occurred: " + e.getMessage();
+        request.setAttribute("error", errorMsg);
+        request.getRequestDispatcher("error-page.jsp").forward(request, response);
     }
+}
 
 }
