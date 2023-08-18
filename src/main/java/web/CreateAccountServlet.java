@@ -25,14 +25,6 @@ import net.sf.oval.exception.ConstraintsViolatedException;
 @WebServlet(name = "CreateAccountServlet", urlPatterns = {"/create-account"})
 public class CreateAccountServlet extends HttpServlet {
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -52,6 +44,11 @@ public class CreateAccountServlet extends HttpServlet {
 
             customer.setPassword(password);
             new Validator().assertValid(customer);
+//            
+//            // Set the customer attribute in the session
+//            HttpSession session = request.getSession();
+//            session.setAttribute("customer", customer);
+//            
             // save the customer
             dao.saveCustomer(customer);
             response.sendRedirect("index.jsp");
@@ -60,22 +57,17 @@ public class CreateAccountServlet extends HttpServlet {
             HttpSession session = request.getSession();
             session.setAttribute("validation", "You have entered an invalid ID");
             response.sendRedirect("create-account.jsp");
-        }catch (ConstraintsViolatedException ex) {
-
-	// get the violated constraints from the exception
-	ConstraintViolation[] violations = ex.getConstraintViolations();
-
-	// create a nice error message for the user
-	String msg = "Please fix the following input problems:";
-
-	msg += "<ul>";
-	for (ConstraintViolation cv : violations) {
-		msg += "<li>" + cv.getMessage() + "</li>";
-	}
-	msg += "</ul>";
-
-	request.getSession().setAttribute("validation", msg);
-	response.sendRedirect("create-account.jsp");
-}
+        } catch (ConstraintsViolatedException ex) {
+            // Handle validation constraints violation
+            ConstraintViolation[] violations = ex.getConstraintViolations();
+            String msg = "Please fix the following input problems:";
+            msg += "<ul>";
+            for (ConstraintViolation cv : violations) {
+                msg += "<li>" + cv.getMessage() + "</li>";
+            }
+            msg += "</ul>";
+            request.getSession().setAttribute("validation", msg);
+            response.sendRedirect("create-account.jsp");
+        }
     }
 }

@@ -2,14 +2,20 @@
 <%@ page pageEncoding="UTF-8" %>
 <nav>
     <a href="create-account.jsp">Create a new account</a>
-    <a href="signin-account.jsp">Sign in account</a>
-    <a href="view-products.jsp">View added products</a>
+    <a href="signin-account.jsp">Sign In </a>
+    <a href="SignOutServlet">Sign Out</a>
     <a href="index.jsp">Home</a>
-    
-     <%-- Check if the customer object is present in the session --%>
+
+
+    <!-- Display "View added products" link only if customer is signed in -->
     <c:if test="${not empty sessionScope.customer}">
-        <%-- Display personalized welcome message using the customer object --%>
-        Welcome, ${sessionScope.customer.firstName} 
-        
+        <a href="view-products.jsp">View added products</a>
     </c:if>
+
+    <c:if test="${not empty sessionScope.customer}">
+        <!-- Display personalized welcome message using the customer object -->
+        Welcome, ${sessionScope.customer.getFirstName()} 
+    </c:if>
+
+    <!--Create a sign out button that signs out the account it should clear all data stored in the session that was associated with this customer-->   
 </nav>
