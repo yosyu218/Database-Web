@@ -1,0 +1,51 @@
+@startuml ViewProducts
+
+' === Style Tweaks ===
+
+skinparam {
+  Style StrictUML
+  RoundCorner 5
+  ParticipantPadding 10
+  Padding 2
+  SequenceStereotype {
+    Font {
+      Size 11
+      Style plain
+    }
+  }
+  Database {
+    BorderColor #A80036
+  }
+}
+
+' === Actors / Participants
+
+actor "Customer" as user
+participant "view-products" as viewPage << JSP Page >>
+participant "ViewProductsServlet" as viewServlet <<Servlet>>
+participant "product-list" as productList << JSP Page >>
+participant "Session" as session
+participant "ProductDAO" as dao << DAO >>
+database "Database" as db
+
+' === Interactions ===
+
+user -> viewPage++ : visits page
+
+viewPage -> viewServlet++ : GET request
+
+viewServlet -> dao++ : getAllProducts()
+dao -> db++ : select * from Product
+return productList
+
+viewServlet -> session++ : setAttribute("productList", productList)
+return
+
+viewServlet -> productList++ : forward to page
+
+productList -> session++ : getAttribute("productList")
+return productList
+
+productList -> productList : display product list
+
+@enduml
