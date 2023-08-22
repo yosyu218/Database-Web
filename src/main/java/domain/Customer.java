@@ -13,6 +13,8 @@ public class Customer {
     @NotNull(message = "ID must be provided.")
     @Min(message = "ID must be greater than 100.", value = 100)
     private Integer customerId;
+    private static int nextCustomerId = 100;  // Static variable to track the next available ID
+
 
     private String username;
     
@@ -32,13 +34,15 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(Integer customerId, String username, String firstName, String surname, String shippingAddress, String emailAddress) {
-        this.customerId = customerId;
+    public Customer(String username, String firstName, String surname, String shippingAddress, String emailAddress, String password) {
         this.username = username;
         this.firstName = firstName;
         this.surname = surname;
         this.shippingAddress = shippingAddress;
         this.emailAddress = emailAddress;
+        this.password = password;
+        
+        this.customerId = nextCustomerId++;
     }
 
     public Integer getCustomerId() {
