@@ -15,7 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class JettyServer {
-
+        private static Logger logger = LoggerFactory.getLogger(JettyServer.class);
 	private static final Integer PORT = 8084;
 	private static final String CONTEXT_PATH = "/milestone1";
 
@@ -50,7 +50,8 @@ public class JettyServer {
 
 		server.start();
 
-		System.out.println("\nMilestone 1 server ready on:\n" + server.getURI());
+		logger.info("Milestone 1 server ready on: {}", server.getURI());
+            
 
 		server.join();
 	}

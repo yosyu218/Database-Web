@@ -30,7 +30,7 @@
                 <p><%= validation%></p>
                 <form action="create-account" method="POST">
 
-                    <label for="customerId">Customer ID:</label> <input type="number" id="customerId" name="customerId" required><br>
+<!--                <label for="customerId">Customer ID:</label> <input type="number" id="customerId" name="customerId" required><br>-->
                     <label for="firstname">First Name:</label> <input type="text" id="firstname" name="firstname" required><br>
                     <label for="surname">Surname:</label> <input type="text" id="surname" name="surname" required><br>
                     <label for="email">Email address:</label> <input type="email" id="email" name="email"><br>

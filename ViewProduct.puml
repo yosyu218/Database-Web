@@ -38,14 +38,15 @@ viewServlet -> dao++ : getAllProducts()
 dao -> db++ : select * from Product
 return productList
 
-viewServlet -> session++ : setAttribute("productList", productList)
+' viewServlet -> session++ : setAttribute("productList", productList)
+' return
+
+' viewServlet -> productList++ : forward to page
+
+' productList -> session++ : getAttribute("productList")
+' return productList
+
+viewServlet-> dao : display product list
 return
-
-viewServlet -> productList++ : forward to page
-
-productList -> session++ : getAttribute("productList")
-return productList
-
-productList -> productList : display product list
 
 @enduml

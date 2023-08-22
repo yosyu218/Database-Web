@@ -48,6 +48,7 @@ form {
 }
 
 label {
+        color : black;
 	grid-column: 1 / 2;
 	text-align: right;
 }
@@ -62,18 +63,20 @@ textarea {
 }
 
 /* colours */
-th, a.nav, legend, label {
+th, a.nav, legend {
 	/*color: darkseagreen;*/
-        color: crimson;
+        color: black; 
+        background-color: aliceblue;
+      
 }
 
 h1, button {
-	/*background-color: darkseagreen;*/
-	background-color: crimson;
-        color: white;
+
+        background-color: aliceblue;
 }
 
 td, th {
-	/*border-color: darkseagreen;*/
-        border-color: crimson;
+
+        border-color: black;
+        
 }

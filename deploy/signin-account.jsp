@@ -24,9 +24,18 @@
                 <%
                     String validation = (String) session.getAttribute("validation");
                     validation = validation != null ? validation : "";
+
+                    String error = (String) session.getAttribute("error");
+                    error = error != null ? error : "";
+
                 %>
 
                 <p><%= validation%></p>
+                <p><%=error%></p>
+                <%
+                session.setAttribute("error","");        
+
+                %>
                 <form action="signin-account" method="POST">
 
                     <label for="username">Username:</label> <input type="text" id="username" name="username" required>

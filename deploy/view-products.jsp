@@ -3,6 +3,7 @@
     Created on : 9/08/2023, 8:55:40 pm
     Author     : yukiyoshiyasu
 --%>
+<%@page import="dao.JdbiDaoFactory"%>
 <%@page import="java.util.Collection"%>
 <%@page import="domain.Product"%>
 <%@page import="dao.ProductCollectionsDAO"%>
@@ -35,7 +36,9 @@
                 </thead>
                 <tbody>
                     <%
-                        ProductDAO dao = new ProductCollectionsDAO();
+                        //ProductDAO dao = new ProductCollectionsDAO();
+                        ProductDAO dao = JdbiDaoFactory.getProductDAO();
+
 
                         // get the category from the query parameter
                         String selectedCategory = request.getParameter("category");

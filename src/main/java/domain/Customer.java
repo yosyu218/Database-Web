@@ -10,12 +10,10 @@ import net.sf.oval.constraint.NotNull;
  */
 public class Customer {
 
-    @NotNull(message = "ID must be provided.")
-    @Min(message = "ID must be greater than 100.", value = 100)
+//    @NotNull(message = "ID must be provided.")
+//    @Min(message = "ID must be greater than 100.", value = 100)
     private Integer customerId;
-    private static int nextCustomerId = 100;  // Static variable to track the next available ID
-
-
+   
     private String username;
     
     @NotNull(message = "Name must be provided.")
@@ -34,7 +32,8 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String username, String firstName, String surname, String shippingAddress, String emailAddress, String password) {
+    public Customer( String username, String firstName, String surname, String shippingAddress, String emailAddress, String password) {
+       
         this.username = username;
         this.firstName = firstName;
         this.surname = surname;
@@ -42,7 +41,7 @@ public class Customer {
         this.emailAddress = emailAddress;
         this.password = password;
         
-        this.customerId = nextCustomerId++;
+       
     }
 
     public Integer getCustomerId() {
@@ -106,4 +105,5 @@ public class Customer {
         return "Customer{" + "customerId=" + customerId + ", username=" + username + ", firstName=" + firstName + ", surname=" + surname + ", password=" + password + ", emailAddress=" + emailAddress + ", shippingAddress=" + shippingAddress + '}';
     }
 
+    
 }

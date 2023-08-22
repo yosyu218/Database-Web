@@ -9,65 +9,76 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  *
  * @author yukiyoshiyasu
  */
-public class CustomerCollectionsDAOTest {
+public class CustomerDAOTest {
 
-    private CustomerDAO customerDAO;
+    @BeforeAll
+    public static void initialise() {
+        JdbiDaoFactory.setJdbcUri("jdbc:h2:mem:tests;INIT=runscript from 'src/main/java/dao/schema.sql'");
+    }
+    
+   private CustomerDAO dao;
     private Customer c1;
     private Customer c2;
 
     @BeforeEach
     public void setUp() {
-        customerDAO = new CustomerCollectionsDAO();
+        //dao = new CustomerCollectionsDAO();
+        dao = JdbiDaoFactory.getCustomerDAO();
 
-        c1 = new Customer(1, "testuser1", "Carlos", "Alca", "123 Castle st", "carlos@gmail.com");
-        c2 = new Customer(2, "testuser2", "Ben", "Smith", "456 Cumberland St", "ben@gmail.com");
+        c1 = new Customer( "testuser1", "Carlos", "Alca", "123 Castle st", "carlos@gmail.com","word");
+        c2 = new Customer( "testuser2", "Ben", "Smith", "456 Cumberland St", "ben@gmail.com","ahha");
+        //c1 = new Customer( "testuser1", "Carlos", "Alca", "123 Castle st", "carlos@gmail.com","pass");
+        //c2 = new Customer( "testuser2", "Ben", "Smith", "456 Cumberland St", "ben@gmail.com","word");
 
-        customerDAO.saveCustomer(c1);
-        customerDAO.saveCustomer(c2);
+        dao.saveCustomer(c1);
+        dao.saveCustomer(c2);
     }
 
     @AfterEach
     public void tearDown() {
-        customerDAO.removeCustomer(c1);
-        customerDAO.removeCustomer(c2);
+        dao.removeCustomer(c1);
+        dao.removeCustomer(c2);
     }
 
     @Test
     public void testSaveCustomer() {
 
-        Customer c3 = new Customer(3, "newuser", "Alice", "Jason", "789 Queen St", "alice@gmail.com");
-        customerDAO.saveCustomer(c3);
+        Customer c3 = new Customer( "newuser", "Alice", "Jason", "789 Queen St", "alice@gmail.com","pass");
+        //Customer c3 = new Customer("newuser", "Alice", "Jason", "789 Queen St", "alice@gmail.com","passpass");
 
-        Customer savedCustomer = customerDAO.getCustomerByUsername("newuser");
+        dao.saveCustomer(c3);
+
+        Customer savedCustomer = dao.getCustomerByUsername("newuser");
         assertNotNull(savedCustomer);
         assertEquals("newuser", savedCustomer.getUsername());
     }
 
     @Test
     public void testRemoveCustomer() {
-        customerDAO.removeCustomer(c1);
+        dao.removeCustomer(c1);
 
-        Customer removedCustomer = customerDAO.getCustomerByUsername("testuser1");
+        Customer removedCustomer = dao.getCustomerByUsername("testuser1");
         assertNull(removedCustomer);
     }
 
     @Test
     public void testVerifyCredentials() {
         c1.setPassword("password123");
-        customerDAO.saveCustomer(c1);
+        dao.saveCustomer(c1);
 
-        assertTrue(customerDAO.verifyCredentials("testuser1", "password123"));
-        assertFalse(customerDAO.verifyCredentials("testuser1", "wrongpassword"));
+        assertTrue(dao.verifyCredentials("testuser1", "password123"));
+        assertFalse(dao.verifyCredentials("testuser1", "wrongpassword"));
     }
 
     @Test
     public void testGetCustomer() {
-        Customer retrievedCustomer = customerDAO.getCustomerByUsername("testuser1");
+        Customer retrievedCustomer = dao.getCustomerByUsername("testuser1");
         assertNotNull(retrievedCustomer);
         assertEquals("testuser1", retrievedCustomer.getUsername());
     }

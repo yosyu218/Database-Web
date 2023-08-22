@@ -7,34 +7,34 @@ package dao;
 import domain.Customer;
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  *
  * @author yukiyoshiyasu
  */
-public class CustomerCollectionsDAO implements CustomerDAO{
-    
-    	private static final Map<String, Customer> customers = new HashMap<>();
+public class CustomerCollectionsDAO implements CustomerDAO {
+
+    private static final Map<String, Customer> customers = new HashMap<>();
 
     @Override
-    public void saveCustomer(Customer customer){
-    customers.put(customer.getUsername(), customer);
+    public void saveCustomer(Customer customer) {
+        customers.put(customer.getUsername(), customer);
     }
-    
+
     @Override
-    public void removeCustomer(Customer customer){
-    customers.remove(customer.getUsername());
+    public void removeCustomer(Customer customer) {
+        customers.remove(customer.getUsername());
     }
-    
+
     @Override
-     public boolean verifyCredentials(String username, String password) {
+    public boolean verifyCredentials(String username, String password) {
         Customer customer = customers.get(username);
         return customer != null && customer.getPassword().equals(password);
     }
-    
+
     @Override
-    public Customer getCustomerByUsername(String username){
-    return customers.get(username);
+    public Customer getCustomerByUsername(String username) {
+        return customers.get(username);
     }
-    
-    
+
 }

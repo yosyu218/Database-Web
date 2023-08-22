@@ -18,15 +18,15 @@ public class ProductCollectionsDAO implements ProductDAO {
     private static final Map<String, Product> products = new HashMap<>();
     private static Collection<Product> items = new HashSet<>();
 
-    @SuppressWarnings("OverridableMethodCallInConstructor")
-    public ProductCollectionsDAO() {
-        if (products.isEmpty()) {
-            saveProduct(new Product("WD1233", "Ultra Pre workout", "heart attack juice", "Energy", new BigDecimal("7.32"), new BigDecimal(35)));
-            saveProduct(new Product("WD1234", "Amino Energy", "Quick recovery from amino acids", "Recovery", new BigDecimal("21.43"), new BigDecimal(3)));
-            saveProduct(new Product("DH8831", "High Chocolate Protein", "Just pure whey protein", "Protein", new BigDecimal("12.32"), new BigDecimal(5)));
-            saveProduct(new Product("DH8832", "Vanilla Protein", "Just pure vanilla protein ideal for baking", "Protein", new BigDecimal("43.23"), new BigDecimal(6)));
-        }
-    }
+//    @SuppressWarnings("OverridableMethodCallInConstructor")
+//    public ProductCollectionsDAO() {
+//        if (products.isEmpty()) {
+//            saveProduct(new Product("WD1233", "Ultra Pre workout", "heart attack juice", "Energy", new BigDecimal("7.32"), new BigDecimal(35)));
+//            saveProduct(new Product("WD1234", "Amino Energy", "Quick recovery from amino acids", "Recovery", new BigDecimal("21.43"), new BigDecimal(3)));
+//            saveProduct(new Product("DH8831", "High Chocolate Protein", "Just pure whey protein", "Protein", new BigDecimal("12.32"), new BigDecimal(5)));
+//            saveProduct(new Product("DH8832", "Vanilla Protein", "Just pure vanilla protein ideal for baking", "Protein", new BigDecimal("43.23"), new BigDecimal(6)));
+//        }
+//    }
 
     @Override
     public void saveProduct(Product product) {

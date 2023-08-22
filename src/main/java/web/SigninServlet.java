@@ -6,6 +6,8 @@ package web;
 
 import dao.CustomerCollectionsDAO;
 import dao.CustomerDAO;
+import dao.JdbiDaoFactory;
+import dao.ProductDAO;
 import domain.Customer;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -33,8 +35,10 @@ public class SigninServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        CustomerDAO dao = new CustomerCollectionsDAO();
+        //CustomerDAO dao = new CustomerCollectionsDAO();
+        CustomerDAO dao = JdbiDaoFactory.getCustomerDAO();
 
+        HttpSession session = request.getSession();
         try {
             // Extracts the password and username info
             String username = request.getParameter("username");
@@ -47,7 +51,7 @@ public class SigninServlet extends HttpServlet {
                 Customer customer = dao.getCustomerByUsername(username);
 
                 // Set the customer attribute in the session
-                HttpSession session = request.getSession();
+                
                 session.setAttribute("customer", customer);
 
                 response.sendRedirect("view-products.jsp");
@@ -58,9 +62,10 @@ public class SigninServlet extends HttpServlet {
 
                 // Append the alert script to the response output
                 response.getWriter().write(alertScript);
-
+                session.setAttribute("error", "Credentials are wrong please re enter");
                 // Forward back to the signin-account page
                 request.getRequestDispatcher("signin-account.jsp").forward(request, response);
+                
             }
 
         } catch (Exception e) {
