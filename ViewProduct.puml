@@ -22,31 +22,30 @@ skinparam {
 
 actor "Customer" as user
 participant "view-products" as viewPage << JSP Page >>
-participant "ViewProductsServlet" as viewServlet <<Servlet>>
-participant "product-list" as productList << JSP Page >>
-participant "Session" as session
-participant "ProductDAO" as dao << DAO >>
-database "Database" as db
+participant "ProductDAO / ProductJdbiDAO" as dao << DAO >>
+database "Database H2" as db
 
 ' === Interactions ===
 
-user -> viewPage++ : visits page
 
-viewPage -> viewServlet++ : GET request
 
-viewServlet -> dao++ : getAllProducts()
-dao -> db++ : select * from Product
-return productList
+user -> viewPage : Clicks "view product" button
 
-' viewServlet -> session++ : setAttribute("productList", productList)
-' return
 
-' viewServlet -> productList++ : forward to page
+viewPage -> dao++ : GET request
+viewPage -> dao : getParameter("category")
 
-' productList -> session++ : getAttribute("productList")
-' return productList
+dao -> db++ : select distinct category from Product order by category ASC
+return collection of categories
+dao --> viewPage: collection of categories
+viewPage -> dao : getProducts()
+dao -> db : select * from Product order by productId
+db --> dao: return collection of products  
+return collection of products
 
-viewServlet-> dao : display product list
-return
+
+viewPage->viewPage : display products
+
+
 
 @enduml

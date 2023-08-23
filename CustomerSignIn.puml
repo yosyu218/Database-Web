@@ -1,0 +1,48 @@
+@startuml ViewProducts
+
+' === Style Tweaks ===
+
+skinparam {
+  Style StrictUML
+  RoundCorner 5
+  ParticipantPadding 10
+  Padding 2
+  SequenceStereotype {
+    Font {
+      Size 11
+      Style plain
+    }
+  }
+  Database {
+    BorderColor #A80036
+  }
+}
+
+' === Actors / Participants
+
+actor "Customer" as user
+participant "signin-account" as signinPage << JSP Page >>
+participant "SigninServlet" as signServlet << Servlet >>
+
+participant "CustomerDAO / CustomerJdbiDAO" as dao << DAO >>
+database "Database H2" as db
+
+
+user -> signinPage++ : Clicks on sign in button
+signinPage -> signServlet++: Post sign in 
+signServlet -> dao++: verifyCredentials(username, password)
+dao -> db++: "SELECT EXISTS (SELECT * FROM Customer WHERE Username = :username AND Password = :password)"
+return true
+dao --> signServlet: true
+signServlet -> dao: getCustomerByUsername(username)
+dao -> db: select * from Customer where username = :username
+dao --> signServlet: customer
+signServlet --> signinPage: redirect to view-products
+
+
+
+
+
+
+
+@enduml

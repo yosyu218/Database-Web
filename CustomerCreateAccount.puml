@@ -1,0 +1,46 @@
+@startuml ViewProducts
+
+' === Style Tweaks ===
+
+skinparam {
+  Style StrictUML
+  RoundCorner 5
+  ParticipantPadding 10
+  Padding 2
+  SequenceStereotype {
+    Font {
+      Size 11
+      Style plain
+    }
+  }
+  Database {
+    BorderColor #A80036
+  }
+}
+
+' === Actors / Participants
+
+actor "Customer" as user
+participant "create-account" as createPage << JSP Page >>
+participant "CreateAccountServlet" as createServlet << Servlet >>
+participant "CustomerDomain" as domain <<domain>>
+participant "CustomerDAO / CustomerJdbiDAO" as dao << DAO >>
+database "Database H2" as db
+
+' === Interactions ===
+
+
+
+user -> createPage++ : Clicks "Create account" button
+createPage -> createServlet++: POST request with parameters
+createServlet -> domain++: Create new Customer object
+return customer
+createServlet -> dao++:  saveCustomer(customer);
+dao -> db: Insert INTO customer....
+
+createServlet -> createPage: Redirect to "index" page
+
+
+
+
+@enduml
